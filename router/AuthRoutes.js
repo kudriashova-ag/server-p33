@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.post('/register', AuthController.register)
 router.post('/login', AuthController.login)
+// додаємо middleware
 router.get('/auth-user', auth, AuthController.getAuthUser)
 
 module.exports = router
