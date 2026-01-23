@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('./db/db')
 const ArticleRoutes = require('./router/ArticleRoutes')
+const ProductRoutes = require('./router/ProductRoutes')
 const AuthRoutes = require('./router/AuthRoutes')
 
 const app = express()
@@ -17,6 +18,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', ArticleRoutes)
+app.use('/api', ProductRoutes)
+
 app.use('/api', AuthRoutes)
 
 app.listen(port, () => {

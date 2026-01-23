@@ -17,7 +17,7 @@ const register = async (req, res) => {
         const { name, email, password } = req.body
 
         // Перевіряємо, чи існує користувач з таким email
-        const candidate = await User.findOne({ email })
+        const candidate = await User.findOne({ email: email.toLowerCase() })
 
         // Якщо користувач вже є — реєстрацію зупиняємо
         if (candidate) {
@@ -30,7 +30,7 @@ const register = async (req, res) => {
 
         // Створюємо нового користувача
         // (пароль має хешуватися у схемі User)
-        const user = new User({ name, email, password })
+        const user = new User({ name, email: email.toLowerCase(), password })
 
         // Зберігаємо користувача в базу даних
         await user.save()
@@ -60,13 +60,13 @@ const login = async (req, res) => {
         const { email, password } = req.body
 
         // Шукаємо користувача за email
-        const user = await User.findOne({ email })
+        const user = await User.findOne({ email: email.toLowerCase() })
 
         // Якщо користувача не знайдено
         if (!user) {
             return res.status(400).json({
                 error: {
-                    message: 'User not found'
+                    message: 'User not found!'
                 }
             })
         }

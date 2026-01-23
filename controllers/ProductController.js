@@ -1,24 +1,24 @@
-const Article = require("../models/Article")
+const Product = require("../models/Product")
 
 const all = async (req, res) => {
     
-    const articles = await Article.find({})
+    const products = await Product.find({})
     res.status(200).json({
-        data: articles
+        data: products
     })
 }
 
 const getById = async (req, res) => {
     try {
-        const article = await Article.findById(req.params.id)
+        const product = await Product.findById(req.params.id)
         res.status(200).json({
-            data: article
+            data: product
         })
     }
     catch (error) {
         return res.status(404).json({
             error: {
-                message: "Article not Found"
+                message: "Product not Found"
             }
         })
     }
@@ -26,11 +26,11 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
     try {
-        const article = new Article(req.body)
-        const savedArticle = await article.save()
+        const product = new Product(req.body)
+        const savedProduct = await product.save()
 
         res.status(201).json({
-            data: savedArticle
+            data: savedProduct
         })
     }
     catch (error) {
@@ -44,28 +44,28 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        const article = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
         res.status(200).json({
-            data: article
+            data: product
         })
     }
     catch (error) {
         return res.status(404).json({
             error: {
-                message: "Article Not Found"
+                message: "Product Not Found"
             }
         })
     }
 }
 const remove = async (req, res) => {
     try {
-        await Article.findByIdAndDelete(req.params.id)
+        await Product.findByIdAndDelete(req.params.id)
         res.status(204).send()
     }
     catch (error) {
         return res.status(404).json({
             error: {
-                message: "Article Not Found"
+                message: "Product Not Found"
             }
         })
     }
