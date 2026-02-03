@@ -30,7 +30,7 @@ const create = async (req, res) => {
         const savedProduct = await product.save();
 
         // Знайдемо всіх користувачів, крім адміна
-        const users = await User.find({ role: "user", expoPushToken: { $exists: true } });
+        const users = await User.find({ expoPushToken: { $exists: true } });
 
         // Відправка push кожному
         for (let user of users) {
