@@ -1,6 +1,5 @@
-import fetch from "node-fetch";
-
-export const sendPushNotification = async ({ token, title, body, data }) => {
+const sendPushNotification = async ({ token, title, body, data }) => {
+    const fetch = (await import('node-fetch')).default;
     if (!token) return;
 
     const message = {
@@ -21,3 +20,5 @@ export const sendPushNotification = async ({ token, title, body, data }) => {
         body: JSON.stringify(message),
     });
 };
+
+module.exports =  sendPushNotification ;

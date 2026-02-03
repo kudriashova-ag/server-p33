@@ -1,6 +1,6 @@
 const Product = require("../models/Product")
 const User = require("../models/User")
-
+const  sendPushNotification  = require("../utils/sendPush")
 const all = async (req, res) => {
     const products = await Product.find({})
     res.status(200).json({
