@@ -141,18 +141,9 @@ const getAuthUser = async (req, res) => {
 }
 
  const savePushToken = async (req, res) => {
-    const { token } = req.body;
-
-    if (!token) {
-        return res.status(400).json({ message: "Token required" });
-    }
-
-    // приклад: зберігаємо у користувача
-    await User.findByIdAndUpdate(req.user.id, {
-        expoPushToken: token,
-    });
-
-    res.json({ success: true });
+     const { token, userId } = req.body;
+     await User.findByIdAndUpdate(userId, { expoPushToken: token });
+     res.json({ success: true });
 };
 
 // Експортуємо контролери
