@@ -3,6 +3,17 @@ const User = require("../models/User")
 
 const all = async (req, res) => {
     const products = await Product.find({})
+    // ⚠️ тестовий token (у реальному проєкті — з БД)
+    const user = await User.findById(req.user.id);
+
+    await sendPushNotification({
+        token: user.expoPushToken,
+        title: "🆕 Новий товар",
+        body: `Товар "${savedProduct.name}" успішно додано`,
+        data: {
+            productId: savedProduct._id,
+        },
+    });
     res.status(200).json({
         data: products
     })
@@ -29,17 +40,7 @@ const create = async (req, res) => {
         const product = new Product(req.body);
         const savedProduct = await product.save();
 
-        // ⚠️ тестовий token (у реальному проєкті — з БД)
-        const user = await User.findById(req.user.id);
-
-        await sendPushNotification({
-            token: user.expoPushToken,
-            title: "🆕 Новий товар",
-            body: `Товар "${savedProduct.name}" успішно додано`,
-            data: {
-                productId: savedProduct._id,
-            },
-        });
+       
 
         res.status(201).json({
             data: savedProduct,
