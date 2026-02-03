@@ -37,7 +37,7 @@ const create = async (req, res) => {
             await sendPushNotification({
                 token: user.expoPushToken,
                 title: "🆕 Новий товар",
-                body: `Товар "${savedProduct.name}" додано`,
+                body: `Товар "${savedProduct.title}" додано`,
                 data: { productId: savedProduct._id },
             });
         }
