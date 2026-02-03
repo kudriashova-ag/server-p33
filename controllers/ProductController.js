@@ -1,7 +1,7 @@
 const Product = require("../models/Product")
+const User = require("../models/User")
 
 const all = async (req, res) => {
-    
     const products = await Product.find({})
     res.status(200).json({
         data: products
@@ -26,21 +26,32 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
     try {
-        const product = new Product(req.body)
-        const savedProduct = await product.save()
+        const product = new Product(req.body);
+        const savedProduct = await product.save();
+
+        // ⚠️ тестовий token (у реальному проєкті — з БД)
+        const user = await User.findById(req.user.id);
+
+        await sendPushNotification({
+            token: user.expoPushToken,
+            title: "🆕 Новий товар",
+            body: `Товар "${savedProduct.name}" успішно додано`,
+            data: {
+                productId: savedProduct._id,
+            },
+        });
 
         res.status(201).json({
-            data: savedProduct
-        })
-    }
-    catch (error) {
+            data: savedProduct,
+        });
+    } catch (error) {
         return res.status(400).json({
             error: {
-                message: error.message
-            }
-        })
+                message: error.message,
+            },
+        });
     }
-}
+};
 
 const update = async (req, res) => {
     try {

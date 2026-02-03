@@ -16,6 +16,7 @@ const register = async (req, res) => {
         // Дістаємо дані з тіла запиту
         const { name, email, password } = req.body
 
+
         // Перевіряємо, чи існує користувач з таким email
         const candidate = await User.findOne({ email: email.toLowerCase() })
 
@@ -139,6 +140,20 @@ const getAuthUser = async (req, res) => {
     }
 }
 
+ const savePushToken = async (req, res) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(400).json({ message: "Token required" });
+    }
+
+    // приклад: зберігаємо у користувача
+    await User.findByIdAndUpdate(req.user.id, {
+        expoPushToken: token,
+    });
+
+    res.json({ success: true });
+};
 
 // Експортуємо контролери
-module.exports = { register, login, getAuthUser }
+module.exports = { register, login, getAuthUser, savePushToken }
